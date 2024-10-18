@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GrupoTorneoController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\JugadorController;
+use App\Http\Controllers\HomeController;
 
 Route::get('jugador', [JugadorController::class, 'index'])->name('jugadores.index');
 Route::get('jugadores/create', [JugadorController::class, 'create'])->name('jugadores.create');
@@ -40,3 +41,5 @@ Route::middleware('auth')->group(function () {
     Route::put('/torneos/{torneo}', [TorneoController::class, 'update'])->name('torneos.update');
     Route::delete('/torneos/{torneo}', [TorneoController::class, 'destroy'])->name('torneos.destroy');
 });
+
+Route::get('/', [HomeController::class, 'index']);

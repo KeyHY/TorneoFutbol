@@ -2,227 +2,51 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid">
-    <div class="fade-in">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <strong>Crear Nuevo Torneo</strong>
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold text-center text-primary mb-8">Crear Nuevo Torneo</h1>
+
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-primary to-secondary text-white py-4 px-6">
+            <h2 class="text-2xl font-semibold"><i class="fas fa-trophy mr-2"></i>Información del Torneo</h2>
+        </div>
+        <div class="p-6">
+            <form action="{{ route('torneos.store') }}" method="POST">
+                @csrf
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre del Torneo</label>
+                        <input type="text" name="nombre" id="nombre" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" required>
                     </div>
-                    <div class="card-body">
-                        <form id="crearTorneoForm" action="{{ route('torneos.store') }}" method="POST">
-                            @csrf
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label for="nombre">Nombre del Torneo</label>
-                                        <input class="form-control @error('nombre') is-invalid @enderror" id="nombre"
-                                            name="nombre" type="text" required value="{{ old('nombre') }}">
-                                        @error('nombre')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="ruta_imagen">Imagen:</label>
-                                <input type="file" class="form-control-file" name="ruta_imagen">
-                            </div>
-                            <div class="row">
-
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="cantidad_equipos"># de Participantes</label>
-                                        <select class="form-control @error('cantidad_equipos') is-invalid @enderror"
-                                            id="cantidad_equipos" name="cantidad_equipos" required>
-                                            <option value="4" {{ old('cantidad_equipos') == '4' ? 'selected' : '' }}>4
-                                            </option>
-                                            <option value="8" {{ old('cantidad_equipos') == '8' ? 'selected' : '' }}>8
-                                            </option>
-                                            <option value="16" {{ old('cantidad_equipos') == '16' ? 'selected' : '' }}>16
-                                            </option>
-                                            <option value="32" {{ old('cantidad_equipos') == '32' ? 'selected' : '' }}>32
-                                            </option>
-                                        </select>
-                                        @error('cantidad_equipos')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label>Formato</label>
-                                        <div class="radio-group">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="formato"
-                                                    id="eliminacionDirecta" value="eliminacion_directa" {{ old('formato') == 'eliminacion_directa' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="eliminacionDirecta">Eliminación
-                                                    directa</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="formato"
-                                                    id="dobleEliminacion" value="doble_eliminacion" {{ old('formato') == 'doble_eliminacion' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="dobleEliminacion">Doble
-                                                    eliminación</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="formato"
-                                                    id="todosContraTodos" value="todos_contra_todos" {{ old('formato') == 'todos_contra_todos' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="todosContraTodos">Todos contra
-                                                    todos</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="formato"
-                                                    id="gruposEliminatorias" value="grupos_eliminatorias" {{ old('formato') == 'grupos_eliminatorias' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="gruposEliminatorias">Grupos +
-                                                    Eliminatorias</label>
-                                            </div>
-                                        </div>
-                                        @error('formato')
-                                            <div class="invalid-feedback d-block">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="fecha_inicio">Fecha de Inicio</label>
-                                        <input class="form-control @error('fecha_inicio') is-invalid @enderror"
-                                            id="fecha_inicio" name="fecha_inicio" type="date" required
-                                            value="{{ old('fecha_inicio') }}">
-                                        @error('fecha_inicio')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="fecha_fin">Fecha de Fin</label>
-                                        <input class="form-control @error('fecha_fin') is-invalid @enderror"
-                                            id="fecha_fin" name="fecha_fin" type="date" required
-                                            value="{{ old('fecha_fin') }}">
-                                        @error('fecha_fin')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="premio">Premio</label>
-                                        <input class="form-control @error('premio') is-invalid @enderror" id="premio"
-                                            name="premio" type="text" required value="{{ old('premio') }}">
-                                        @error('premio')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="lugar">Lugar</label>
-                                        <input class="form-control @error('lugar') is-invalid @enderror" id="lugar"
-                                            name="lugar" type="text" required value="{{ old('lugar') }}">
-                                        @error('lugar')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label for="descripcion">Descripción</label>
-                                        <textarea class="form-control @error('descripcion') is-invalid @enderror"
-                                            id="descripcion" name="descripcion" rows="3"
-                                            required>{{ old('descripcion') }}</textarea>
-                                        @error('descripcion')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <button class="btn btn-sm btn-primary" type="submit">Crear Torneo</button>
-                                <a href="{{ route('torneos.index') }}" class="btn btn-sm btn-secondary">Volver al
-                                    Índice</a>
-                            </div>
-                        </form>
+                    <div>
+                        <label for="lugar" class="block text-sm font-medium text-gray-700 mb-1">Lugar</label>
+                        <input type="text" name="lugar" id="lugar" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" required>
                     </div>
                 </div>
-            </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label for="fecha_inicio" class="block text-sm font-medium text-gray-700 mb-1">Fecha de Inicio</label>
+                        <input type="date" name="fecha_inicio" id="fecha_inicio" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" required>
+                    </div>
+                    <div>
+                        <label for="fecha_fin" class="block text-sm font-medium text-gray-700 mb-1">Fecha de Fin</label>
+                        <input type="date" name="fecha_fin" id="fecha_fin" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" required>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label for="premio" class="block text-sm font-medium text-gray-700 mb-1">Premio</label>
+                    <input type="text" name="premio" id="premio" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" required>
+                </div>
+                <div class="mb-6">
+                    <label for="descripcion" class="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
+                    <textarea name="descripcion" id="descripcion" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
+                        Crear Torneo
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 @endsection
-
-@push('styles')
-    <style>
-        .fade-in {
-            animation: fadeIn ease 1s;
-            -webkit-animation: fadeIn ease 1s;
-        }
-
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-
-            100% {
-                opacity: 1;
-            }
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .radio-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-    </style>
-@endpush
-
-@push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const form = document.getElementById('crearTorneoForm');
-
-            form.addEventListener('submit', function (event) {
-                event.preventDefault();
-                if (confirm('¿Estás seguro de que quieres crear este torneo?')) {
-                    this.submit();
-                }
-            });
-
-            // Validación del lado del cliente
-            form.addEventListener('input', function (event) {
-                const input = event.target;
-                if (input.hasAttribute('required') && input.value.trim() === '') {
-                    input.classList.add('is-invalid');
-                } else {
-                    input.classList.remove('is-invalid');
-                }
-            });
-
-            // Validación de fechas
-            const fechaInicio = document.getElementById('fecha_inicio');
-            const fechaFin = document.getElementById('fecha_fin');
-
-            fechaFin.addEventListener('change', function () {
-                if (fechaInicio.value && this.value < fechaInicio.value) {
-                    this.setCustomValidity('La fecha de fin debe ser posterior a la fecha de inicio');
-                } else {
-                    this.setCustomValidity('');
-                }
-            });
-        });
-    </script>
-@endpush
